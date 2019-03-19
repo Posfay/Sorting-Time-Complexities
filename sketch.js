@@ -6,17 +6,17 @@ let btn, p, slider, dropd, dropd2, result;
 
 
 function setup() {
-  createP("Be careful with huge numbers and slower algorithms than O(n log n)");
+  createP("Be careful with huge numbers and slower algorithms than Θ(n log n)");
 
   p = createP("Array size: " + SIZE);
 
   dropd = createSelect();
   dropd.option("100", "100");
-  dropd.option("1000", "1000");
-  dropd.option("10000", "10000");
-  dropd.option("100000", "100000");
-  dropd.option("1000000", "1000000");
-  dropd.option("10000000", "10000000");
+  dropd.option("1,000", "1000");
+  dropd.option("10,000", "10000");
+  dropd.option("100,000", "100000");
+  dropd.option("1,000,000", "1000000");
+  dropd.option("10,000,000", "10000000");
 
   createP("");
 
