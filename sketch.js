@@ -1,8 +1,9 @@
 let SIZE = 1000;
 
 let arr;
+let swapC, arrAccess, comps;
 
-let btn, p, slider, dropd, dropd2, result;
+let btn, p, slider, dropd, dropd2, result, swapP, arrAccessP, compsP;
 
 
 function setup() {
@@ -36,6 +37,13 @@ function setup() {
   createP("");
 
   result = createP("Time in milliseconds: ");
+  compsP = createP("Comparisons: ");
+  swapP = createP("Swaps: ");
+  arrAccessP = createP("Array accesses: ");
+
+  swapC = 0;
+  arrAccess = 0;
+  comps = 0;
 
   arr = new Array(SIZE);
 
@@ -54,6 +62,10 @@ function draw() {
 
 function sortClick() {
   arr = new Array(SIZE);
+
+  swapC = 0;
+  arrAccess = 0;
+  comps = 0;
 
   for (let i = 0; i < SIZE; i++) {
     arr[i] = i + 1;
@@ -86,7 +98,11 @@ function sortClick() {
   let diff = timeAfter - timeBefore;
 
   result.html("Time in milliseconds: " + diff);
+  compsP.html("Comparisons: " + comps);
+  swapP.html("Swaps: " + swapC);
+  arrAccessP.html("Array accesses: " + arrAccess);
 }
+
 
 
 
@@ -107,12 +123,17 @@ function quicksort(left, right) {
   let lo = left;
   let hi = right;
   let pivot = arr[int((left + right) / 2)];
+  arrAccess++;
   do {
     while (arr[lo] < pivot) {
       lo++;
+      arrAccess++;
+      comps++;
     }
     while (arr[hi] > pivot) {
       hi--;
+      arrAccess++;
+      comps++;
     }
     if (lo <= hi) {
       csere(arr, lo, hi);
@@ -120,6 +141,10 @@ function quicksort(left, right) {
       // actionsJ.push(hi);
       lo++;
       hi--;
+      swapC++;
+      arrAccess++;
+      arrAccess++;
+      arrAccess++;
     }
   } while (!(lo > hi));
   if (left < hi) {
@@ -135,6 +160,9 @@ function selectionSort() {
   for (let i = 0; i < arr.length; i++) {
     let min = i;
     for (let j = i + 1; j < arr.length; j++) {
+      arrAccess++;
+      arrAccess++;
+      comps++;
       if (arr[j] < arr[min]) {
         min = j;
       }
@@ -144,6 +172,10 @@ function selectionSort() {
       csere(arr, i, min);
       // actionsB.push(i);
       // actionsJ.push(min);
+      swapC++;
+      arrAccess++;
+      arrAccess++;
+      arrAccess++;
     }
   }
 }
@@ -154,10 +186,17 @@ function bubbleSort() {
   while (!done) {
     done = true;
     for (let i = 1; i < arr.length; i++) {
+      arrAccess++;
+      arrAccess++;
+      comps++;
       if (arr[i-1] > arr[i]) {
         csere(arr, i-1, i);
         // tarol(i-1, i);
         done = false;
+        swapC++;
+        arrAccess++;
+        arrAccess++;
+        arrAccess++;
       }
     }
   }
@@ -165,11 +204,19 @@ function bubbleSort() {
 
 
 function insertionSort() {
-  for (let i = 0; i < arr.length; i++) {
+  for (var i = 0; i < arr.length; i++) {
     let k = arr[i];
-    for (let j = i; j > 0 && k < arr[j - 1]; j--)
+    arrAccess++;
+    for (var j = i; j > 0 && k < arr[j - 1]; j--) {
+      arrAccess++;
+      arrAccess++;
+      comps++;
       arr[j] = arr[j - 1];
+      arrAccess++;
+      arrAccess++;
+    }
     arr[j] = k;
+    arrAccess++;
   }
 }
 
@@ -178,10 +225,18 @@ function shellSort() {
     for (var h = arr.length; h > 0; h = parseInt(h / 2)) {
         for (var i = h; i < arr.length; i++) {
             let k = arr[i];
+            arrAccess++;
             for (var j = i; j >= h && k < arr[j - h]; j -= h) {
                 arr[j] = arr[j - h];
+                arrAccess++;
+                arrAccess++;
+                arrAccess++;
+                arrAccess++;
+                comps++;
             }
             arr[j] = k;
+            arrAccess++;
+            arrAccess++;
         }
     }
 }
@@ -192,12 +247,21 @@ function merge(left, right, array) {
 
   while (left.length && right.length) {
     array[a++] = (right[0] < left[0]) ? right.shift() : left.shift();
+    arrAccess++;
+    arrAccess++;
+    arrAccess++;
+    arrAccess++;
+    comps++;
   }
   while (left.length) {
     array[a++] = left.shift();
+    arrAccess++;
+    arrAccess++;
   }
   while (right.length) {
     array[a++] = right.shift();
+    arrAccess++;
+    arrAccess++;
   }
 }
 
@@ -210,6 +274,9 @@ function mergeSort(array) {
       left = array.slice(0, mid),
       right = array.slice(mid);
 
+  arrAccess++;
+  arrAccess++;
+
   mergeSort(left);
   mergeSort(right);
   merge(left, right, array);
@@ -221,6 +288,10 @@ function heap_sort(array) {
     var end = array.length - 1;
     while(end > 0) {
         csere(array, 0, end);
+        swapC++;
+        arrAccess++;
+        arrAccess++;
+        arrAccess++;
         sift_element_down_heap(array, 0, end);
         end -= 1
     }
@@ -242,12 +313,23 @@ function sift_element_down_heap(heap, i, max) {
         i_big = i;
         c1 = 2*i + 1;
         c2 = c1 + 1;
+        comps++;
+        comps++;
+        comps++;
+        arrAccess++;
+        arrAccess++;
+        arrAccess++;
+        arrAccess++;
         if (c1 < max && heap[c1] > heap[i_big])
             i_big = c1;
         if (c2 < max && heap[c2] > heap[i_big])
             i_big = c2;
         if (i_big == i) return;
         csere(heap,i, i_big);
+        arrAccess++;
+        arrAccess++;
+        arrAccess++;
+        swapC++;
         i = i_big;
     }
 }
